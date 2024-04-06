@@ -50,7 +50,8 @@ defmodule Elprimo.Handlers.QuestionHandler do
 
   def send_to_admins(%Elprimo.Question{} = q) do
     for u <- Elprimo.User.admins() do
-      Question.send_to_telegram(q, u)
+      Task.async(Question, :send_to_telegram, [q, u])
     end
+    |> Task.await_many()
   end
 end
