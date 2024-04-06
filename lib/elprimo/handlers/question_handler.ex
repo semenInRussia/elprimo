@@ -29,7 +29,7 @@ defmodule Elprimo.Handlers.QuestionHandler do
 
     case state do
       :question ->
-        Elprimo.Repo.insert(%Question{time: now(), from: u.id, text: txt, isquery: false})
+        save_and_send(u, txt)
         Telegex.send_message(msg.chat.id, "Спасибо за то, что задали вопрос!")
         State.update(user.id, :none)
 
@@ -39,5 +39,18 @@ defmodule Elprimo.Handlers.QuestionHandler do
     end
 
     {:done, ctx}
+  end
+
+  def save_and_send(%Elprimo.User{} = user, text) do
+    {:ok, q} =
+      Elprimo.Repo.insert(%Question{time: now(), from: user.id, text: text, isquery: false})
+
+    send_to_admins(q)
+  end
+
+  def send_to_admins(%Elprimo.Question{} = q) do
+    for u <- Elprimo.User.admins() do
+      Question.send_to_telegram(q, u)
+    end
   end
 end
