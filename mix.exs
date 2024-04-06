@@ -22,8 +22,20 @@ defmodule Elprimo.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      # database library (Ecto) deps:
       {:ecto_sql, "~> 3.2"},
-      {:postgrex, "~> 0.15"}
+      {:postgrex, "~> 0.15"},
+
+      # telegram library (Telegex) deps
+      {:telegex, "~> 1.4.0"},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:finch, "~> 0.16.0"},
+      {:multipart, "~> 0.4.0"},
+      {:plug, "~> 1.14"},
+      {:plug_cowboy, "~> 2.6"},
+      {:bandit, "~> 1.1"},
+      {:remote_ip, "~> 1.1"}
     ]
   end
 end

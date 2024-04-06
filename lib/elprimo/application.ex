@@ -8,7 +8,8 @@ defmodule Elprimo.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Elprimo.Repo
+      Elprimo.Repo,
+      Elprimo.UpdatesPoller
     ]
 
     opts = [strategy: :one_for_one, name: Elprimo.Supervisor]

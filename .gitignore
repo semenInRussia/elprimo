@@ -24,3 +24,6 @@ elprimo-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# files that added with me
+/config/secret.exs
