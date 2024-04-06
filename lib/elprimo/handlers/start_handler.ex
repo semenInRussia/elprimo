@@ -2,20 +2,15 @@ defmodule Elprimo.Handlers.StartHandler do
   use Telegex.Chain, :message
   alias Elprimo.User
   alias Telegex.Type.Message
+  import Elprimo.Utils
 
-  @command "/start"
+  @command "start"
 
   require Logger
 
   @impl Telegex.Chain
-  def match?(msg, _ctx) when not is_nil(msg.text) do
-    msg.text
-    |> String.trim()
-    |> String.equivalent?(@command)
-  end
-
-  def match?(_msg, _ctx) do
-    false
+  def match?(msg, _ctx) do
+    check_command(msg.text, @command)
   end
 
   @impl Telegex.Chain
