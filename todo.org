@@ -1,9 +1,9 @@
-* Elprimo [4/24]
+* Elprimo [5/25]
 ** DONE connect to db
 ** DONE Connect with GitHub
 ** DONE Schemes
 ** DONE Telegex skeleton
-** TODO When /start
+** DONE When /start
 ** TODO Ability to insert questions
 ** TODO Nice questions
 ** TODO Send question to admins
@@ -22,4 +22,5 @@
 ** TODO Check that /newadmin is called with admin
 ** TODO Cool Buttons
 ** TODO Special menu for admins
+** TODO Official language
 ** TODO /ban

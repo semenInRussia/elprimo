@@ -1,5 +1,6 @@
 defmodule Elprimo.Handlers.StartHandler do
   use Telegex.Chain, :message
+  alias Elprimo.User
   alias Telegex.Type.Message
 
   @command "/start"
@@ -18,10 +19,15 @@ defmodule Elprimo.Handlers.StartHandler do
   end
 
   @impl Telegex.Chain
-  def handle(%Message{} = msg, context) do
+  def handle(%Message{from: user} = msg, context) do
     Logger.warning(msg)
-    txt = "Hi bro"
-    Telegex.send_message(msg.chat.id, txt)
+
+    if is_nil(Elprimo.User.by_telegram_id(user.id)) do
+      Elprimo.Repo.insert(User.from_tgx(user))
+    end
+
+    Telegex.send_message(msg.chat.id, "Дарово!! |/ 🤝")
+
     {:done, context}
   end
 end
