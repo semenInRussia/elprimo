@@ -19,14 +19,19 @@ defmodule Elprimo.Handlers.AnswHandler do
 
   @impl Telegex.Chain
   def handle(%Message{from: user} = msg, context) do
-    handle_state(State.get(user.id), msg, context)
+    u = User.by_telegram_id(user.id)
+
+    if not u.admin do
+      Telegex.send_message(user.id, "Вы не админ, никак!")
+    else
+      handle_state(State.get(user.id), msg, u, context)
+    end
   end
 
-  def handle_state(state, %Message{from: user, text: txt} = msg, ctx) do
+  def handle_state(state, %Message{from: user, text: txt} = msg, u, ctx) do
     case state do
       {:answer, question_id} ->
         q = Question.by_id(question_id)
-        u = User.by_telegram_id(user.id)
 
         Elprimo.Repo.insert(%Elprimo.Message{
           text: txt,
