@@ -8,6 +8,7 @@ defmodule Elprimo.ChainHandler do
   use Telegex.Chain.Handler
 
   pipeline([
-    Elprimo.Handlers.StartHandler
+    Elprimo.Handlers.StartHandler,
+    Elprimo.Handlers.QuestionHandler
   ])
 end
