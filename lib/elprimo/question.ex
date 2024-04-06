@@ -4,7 +4,6 @@ defmodule Elprimo.Question do
   """
 
   use Ecto.Schema
-  import Ecto.Query
 
   schema "question" do
     field(:text, :string)
