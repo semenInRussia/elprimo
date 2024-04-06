@@ -4,6 +4,7 @@ defmodule Elprimo.Question do
   """
 
   use Ecto.Schema
+  import Ecto.Query
 
   schema "question" do
     field(:text, :string)
@@ -25,5 +26,10 @@ defmodule Elprimo.Question do
       text,
       parse_mode: "markdown"
     )
+  end
+
+  def by_id(id) do
+    query = from(q in __MODULE__, where: q.id == ^id, select: q)
+    Elprimo.Repo.one(query)
   end
 end

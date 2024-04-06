@@ -9,6 +9,7 @@ defmodule Elprimo.ChainHandler do
 
   pipeline([
     Elprimo.Handlers.StartHandler,
-    Elprimo.Handlers.QuestionHandler
+    Elprimo.Handlers.QuestionHandler,
+    Elprimo.Handlers.AnswHandler
   ])
 end
