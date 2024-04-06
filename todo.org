@@ -1,0 +1,22 @@
+* Elprimo [1/21]
+** DONE connect to db
+** TODO Schemes
+** TODO Telegex skeleton
+** TODO When /start
+** TODO Ability to insert questions
+** TODO Nice questions
+** TODO Send question to admins
+** TODO Insert /answ Message{}
+** TODO Check if admin
+** TODO Nice /answ
+** TODO Send messages between them
+** TODO Insert /msg Message{}
+** TODO Check that have access
+** TODO Ability to insert /query Query{}
+** TODO Inline bot to choose Doctype
+** TODO Send query to every admin
+** TODO When send after /msg =gen_pdf=
+** TODO /newadmin take username
+** TODO Nice /newadmin
+** TODO Check that /newadmin is called with admin
+** TODO /ban
