@@ -7,12 +7,17 @@ defmodule Elprimo.Application do
 
   @impl true
   def start(_type, _args) do
+    # run all databases-like things
     children = [
+      # a repository for Postgres Database
       Elprimo.Repo,
+      # an agent to check the user state
+      Elprimo.State,
+      # a telegram
       Elprimo.UpdatesPoller
     ]
 
-    opts = [strategy: :one_for_one, name: Elprimo.Supervisor]
+    opts = [strategy: :one_for_one]
     Supervisor.start_link(children, opts)
   end
 end
