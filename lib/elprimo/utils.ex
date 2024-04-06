@@ -21,7 +21,24 @@ defmodule Elprimo.Utils do
     |> String.equivalent?("/" <> expected)
   end
 
-  def check_command(_, _) do
-    false
+  def check_command(_, _), do: false
+
+  @doc """
+  Accept the text of a Telegram message and expected command which expect
+  an ID after the name.
+
+  Return the ID after a command name if a given text is an expected
+  call, otherwise return false.
+  """
+  def chop_1arg_command(text, command) when not is_nil(text) do
+    with text <- String.trim(text),
+         "/" <> ^command <> id <- text,
+         {id, ""} <- Integer.parse(id) do
+      id
+    else
+      _ -> false
+    end
   end
+
+  def chop_1arg_command(_, _), do: false
 end
