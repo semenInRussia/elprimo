@@ -17,6 +17,11 @@ defmodule Elprimo.User do
     Elprimo.Repo.one(query)
   end
 
+  def admins() do
+    query = from(u in __MODULE__, where: u.admin, select: u)
+    Elprimo.Repo.all(query)
+  end
+
   def from_tgx(%Telegex.Type.User{username: username, id: id}) do
     %__MODULE__{username: username, telegram: id, admin: false}
   end
