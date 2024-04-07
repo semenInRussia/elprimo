@@ -19,6 +19,8 @@ defmodule Elprimo.State do
           | {:answer, integer()}
           | {:msg, integer()}
           | :query_type
+          # first integer() is the field number
+          # second integer() is the Doctype.ID
           | {:query_field, integer(), integer(), String.t()}
 
   def start_link(_opts) do
