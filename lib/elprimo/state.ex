@@ -19,6 +19,7 @@ defmodule Elprimo.State do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
+  @spec get(:integer) :: state()
   @doc """
   Get the current state of an user, accept the ID of a Telegram user.
   """
@@ -26,6 +27,7 @@ defmodule Elprimo.State do
     Agent.get(__MODULE__, &Map.get(&1, id, :none))
   end
 
+  @spec check(:integer, state()) :: boolean()
   @doc """
   Compare the current state of an user with expected state, accept the
   ID of a Telegram user.
@@ -36,6 +38,7 @@ defmodule Elprimo.State do
     __MODULE__.get(id) == exp
   end
 
+  @spec update(:integer, state()) :: :ok
   @doc """
   Change the state of an user, accept the ID of a Telegram user.
   """
