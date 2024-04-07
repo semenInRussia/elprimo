@@ -60,14 +60,7 @@ defmodule Elprimo.Handlers.MsgHandler do
 
       {:msg, msg_id} ->
         prev = Elprimo.Message.by_id(msg_id)
-
-        Elprimo.Repo.insert(%Elprimo.Message{
-          text: text,
-          prev: prev.id,
-          from: prev.to,
-          to: prev.from,
-          time: now()
-        })
+        save_and_send(text, prev)
 
         Telegex.send_message(user.telegram, "Отправлено!")
         State.update(user.telegram, :none)
@@ -75,5 +68,19 @@ defmodule Elprimo.Handlers.MsgHandler do
       _ ->
         need_cancel(user)
     end
+  end
+
+  def save_and_send(text, %Elprimo.Message{} = prev) do
+    {:ok, m} =
+      Elprimo.Repo.insert(%Elprimo.Message{
+        text: text,
+        prev: prev.id,
+        from: prev.to,
+        to: prev.from,
+        time: now()
+      })
+
+    u = Elprimo.User.by_id(prev.from)
+    Elprimo.Message.send_to_telegram(m, u)
   end
 end
