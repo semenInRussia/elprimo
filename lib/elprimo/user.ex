@@ -17,6 +17,11 @@ defmodule Elprimo.User do
     Elprimo.Repo.one(query)
   end
 
+  def by_id(id) do
+    query = from(u in __MODULE__, where: u.id == ^id, select: u)
+    Elprimo.Repo.one(query)
+  end
+
   def admins() do
     query = from(u in __MODULE__, where: u.admin, select: u)
     Elprimo.Repo.all(query)

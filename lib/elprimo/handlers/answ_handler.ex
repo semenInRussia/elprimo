@@ -1,10 +1,10 @@
 defmodule Elprimo.Handlers.AnswHandler do
-  use Telegex.Chain
   alias Elprimo.Question
-  alias Telegex.Type.Update
-  alias Elprimo.User
   alias Elprimo.State
+  alias Elprimo.User
+  alias Telegex.Type.Update
   import Elprimo.Utils
+  use Telegex.Chain
 
   @command "answ"
 
@@ -59,13 +59,7 @@ defmodule Elprimo.Handlers.AnswHandler do
     case state do
       {:answer, question_id} ->
         q = Question.by_id(question_id)
-
-        Elprimo.Repo.insert(%Elprimo.Message{
-          text: text,
-          to: q.from,
-          from: user.id,
-          time: now()
-        })
+        save_and_send(text, user.id, q.from)
 
         Telegex.send_message(
           user.telegram,
@@ -81,5 +75,18 @@ defmodule Elprimo.Handlers.AnswHandler do
     end
 
     {:done, ctx}
+  end
+
+  def save_and_send(text, from, to) do
+    {:ok, m} =
+      Elprimo.Repo.insert(%Elprimo.Message{
+        text: text,
+        to: to,
+        from: from,
+        time: now()
+      })
+
+    u = Elprimo.User.by_id(to)
+    Elprimo.Message.send_to_telegram(m, u)
   end
 end
