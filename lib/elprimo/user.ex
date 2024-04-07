@@ -6,27 +6,33 @@ defmodule Elprimo.User do
   use Ecto.Schema
   import Ecto.Query
 
+  @type t() :: %Elprimo.User{}
+
   schema "user" do
     field(:username, :string, default: nil)
     field(:telegram, :integer)
     field(:admin, :boolean)
   end
 
+  @spec by_telegram_id(integer()) :: t()
   def by_telegram_id(id) do
     query = from(u in __MODULE__, where: u.telegram == ^id, select: u)
     Elprimo.Repo.one(query)
   end
 
+  @spec by_id(integer()) :: t()
   def by_id(id) do
     query = from(u in __MODULE__, where: u.id == ^id, select: u)
     Elprimo.Repo.one(query)
   end
 
+  @spec admins() :: list(t())
   def admins() do
     query = from(u in __MODULE__, where: u.admin, select: u)
     Elprimo.Repo.all(query)
   end
 
+  @spect from_tgx(%Telegex.Type.User{}) :: t()
   def from_tgx(%Telegex.Type.User{username: username, id: id}) do
     %__MODULE__{username: username, telegram: id, admin: false}
   end
