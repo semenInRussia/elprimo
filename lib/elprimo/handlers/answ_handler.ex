@@ -52,6 +52,7 @@ defmodule Elprimo.Handlers.AnswHandler do
     end
   end
 
+  @spec next_state(State.t(), String.t(), Elprimo.User.t()) :: any()
   def next_state(state, text, %Elprimo.User{} = user) do
     case state do
       {:answer, question_id} ->
@@ -75,6 +76,7 @@ defmodule Elprimo.Handlers.AnswHandler do
     end
   end
 
+  @spec save_and_send(String.t(), integer(), integer()) :: any()
   def save_and_send(text, from, to) do
     {:ok, m} =
       Elprimo.Repo.insert(%Elprimo.Message{
@@ -88,6 +90,7 @@ defmodule Elprimo.Handlers.AnswHandler do
     Elprimo.Message.send_to_telegram(m, u)
   end
 
+  @spec text_of_update(%Update{}) :: String.t() | nil
   def text_of_update(%Update{} = upd) do
     cond do
       upd.callback_query != nil ->
@@ -98,6 +101,7 @@ defmodule Elprimo.Handlers.AnswHandler do
     end
   end
 
+  @spec tg_of_update(%Update{}) :: integer() | nil
   def tg_of_update(%Update{} = upd) do
     cond do
       upd.callback_query != nil ->

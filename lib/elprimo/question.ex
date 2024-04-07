@@ -9,6 +9,8 @@ defmodule Elprimo.Question do
   import Ecto.Query
   import Elprimo.Utils
 
+  @type t() :: %__MODULE__{}
+
   schema "question" do
     field(:text, :string)
     field(:from, :integer)

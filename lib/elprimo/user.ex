@@ -6,7 +6,7 @@ defmodule Elprimo.User do
   use Ecto.Schema
   import Ecto.Query
 
-  @type t() :: %Elprimo.User{}
+  @type t() :: %__MODULE__{username: String.t(), telegram: integer(), admin: boolean()}
 
   schema "user" do
     field(:username, :string, default: nil)
@@ -32,7 +32,7 @@ defmodule Elprimo.User do
     Elprimo.Repo.all(query)
   end
 
-  @spect from_tgx(%Telegex.Type.User{}) :: t()
+  @spec from_tgx(%Telegex.Type.User{}) :: t()
   def from_tgx(%Telegex.Type.User{username: username, id: id}) do
     %__MODULE__{username: username, telegram: id, admin: false}
   end

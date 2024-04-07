@@ -45,6 +45,7 @@ defmodule Elprimo.Handlers.QuestionHandler do
     end
   end
 
+  @spec save_and_send(Elprimo.User.t(), String.t()) :: any()
   def save_and_send(%Elprimo.User{} = user, text) do
     {:ok, q} =
       Elprimo.Repo.insert(%Question{time: now(), from: user.id, text: text, isquery: false})
@@ -52,6 +53,7 @@ defmodule Elprimo.Handlers.QuestionHandler do
     send_to_admins(q)
   end
 
+  @spec send_to_admins(Elprimo.Question.t()) :: any()
   def send_to_admins(%Elprimo.Question{} = q) do
     for u <- Elprimo.User.admins() do
       Task.async(Question, :send_to_telegram, [q, u])

@@ -42,6 +42,7 @@ defmodule Elprimo.Handlers.MsgHandler do
     {:done, context}
   end
 
+  @spec next_state(State.t(), String.t(), Elprimo.User.t()) :: any()
   def next_state(state, text, %Elprimo.User{} = user) do
     case state do
       :none ->
@@ -70,6 +71,7 @@ defmodule Elprimo.Handlers.MsgHandler do
     end
   end
 
+  @spec save_and_send(String.t(), Elprimo.Message.t()) :: any()
   def save_and_send(text, %Elprimo.Message{} = prev) do
     {:ok, m} =
       Elprimo.Repo.insert(%Elprimo.Message{

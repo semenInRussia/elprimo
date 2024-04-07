@@ -6,6 +6,8 @@ defmodule Elprimo.Message do
   import Elprimo.Utils
   import Ecto.Query
 
+  @type t() :: %__MODULE__{}
+
   schema "message" do
     field(:text, :string)
     field(:prev, :integer)
