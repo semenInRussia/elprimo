@@ -43,6 +43,7 @@ defmodule Elprimo.Message do
     )
   end
 
+  @spec by_id(integer()) :: t() | nil
   def by_id(id) do
     query = from(m in __MODULE__, where: m.id == ^id, select: m)
     Elprimo.Repo.one(query)
