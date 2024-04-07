@@ -15,14 +15,14 @@ defmodule Elprimo.Query do
   end
 
   def save_and_send_to_admins(%__MODULE__{} = q, %Elprimo.User{} = user) do
-    Elprimo.Repo.insert(q)
+    {:ok, query} = Elprimo.Repo.insert(q)
     d = Elprimo.Doctype.by_id(q.doctype)
 
     {:ok, q} =
       Elprimo.Repo.insert(%Elprimo.Question{
         text: "Запрос на документ типа \"#{d.name}\"",
         from: user.id,
-        isquery: true,
+        query: query.id,
         time: now()
       })
 

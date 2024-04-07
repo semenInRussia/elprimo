@@ -46,7 +46,7 @@ defmodule Elprimo.Handlers.QuestionHandler do
   @spec save_and_send(Elprimo.User.t(), String.t()) :: any()
   def save_and_send(%Elprimo.User{} = user, text) do
     {:ok, q} =
-      Elprimo.Repo.insert(%Question{time: now(), from: user.id, text: text, isquery: false})
+      Elprimo.Repo.insert(%Question{time: now(), from: user.id, text: text, query: nil})
 
     Elprimo.Question.send_to_admins(q)
   end

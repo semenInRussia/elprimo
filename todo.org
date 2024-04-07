@@ -1,4 +1,4 @@
-* Elprimo [16/32]
+* Elprimo [59%]
 ** DONE connect to db
 ** DONE Connect with GitHub
 ** DONE Schemes
@@ -15,10 +15,15 @@
 ** DONE Type state
 ** DONE Answ with cb
 ** DONE Send messages between them
-** TODO Insert /msg Message{}
-** TODO Check that have access
-** TODO Ability to insert /query Query{}
-** TODO Inline bot to choose Doctype
+** DONE Insert /msg Message{}
+** DONE Use only callback queries when handle [100%]
+- [X] answ
+- [X] msg
+** DONE /cancel
+** DONE Check that have access
+** DONE Send messages between them
+
+** DONE Inline bot to choose Doctype
 ** TODO Send query to every admin
 ** TODO =gen_pdf=
 ** TODO When send after /msg =gen_pdf=
@@ -29,5 +34,16 @@
 ** TODO Cool Buttons
 ** TODO Special menu for admins
 ** TODO Official language
+** TODO Handle when user replied the message using telegram reply
+
+** TODO Ability to create Doctypes from tg bot
 ** TODO /ban
 ** TODO Inline queries outside
+** TODO Ability to insert /query Query{} [4/7]
+*** DONE migrations
+*** DONE schemes
+*** DONE :query_type, {:query_field, query_type_id, i, info}
+*** TODO try defaults also
+*** TODO ask to enter again
+*** DONE add Doctype.description
+*** TODO add Field.name

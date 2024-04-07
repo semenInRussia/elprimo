@@ -15,7 +15,7 @@ defmodule Elprimo.Question do
     field(:text, :string)
     field(:from, :integer)
     field(:time, :naive_datetime)
-    field(:isquery, :boolean)
+    field(:query, :integer)
   end
 
   @spec send_to_admins(t()) :: any()
