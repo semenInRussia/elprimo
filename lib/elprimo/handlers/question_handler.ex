@@ -17,9 +17,7 @@ defmodule Elprimo.Handlers.QuestionHandler do
     check_command(msg.text, @command) or State.check(msg.from.id, :question)
   end
 
-  def match?(_msg, _ctx) do
-    false
-  end
+  def match?(_msg, _ctx), do: false
 
   @impl Telegex.Chain
   def handle(%Message{from: user} = msg, context) do

@@ -25,6 +25,9 @@ defmodule Elprimo.Handlers.MsgHandler do
       cb ->
         text = cb.data || ""
         chop_1arg_command(text, @command)
+
+      true ->
+        false
     end
   end
 
