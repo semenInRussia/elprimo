@@ -18,6 +18,14 @@ defmodule Elprimo.Question do
     field(:isquery, :boolean)
   end
 
+  @spec send_to_admins(t()) :: any()
+  def send_to_admins(%__MODULE__{} = q) do
+    for u <- Elprimo.User.admins() do
+      Task.async(__MODULE__, :send_to_telegram, [q, u])
+    end
+    |> Task.await_many()
+  end
+
   def send_to_telegram(%__MODULE__{} = q, %Elprimo.User{} = u) do
     text =
       "_Время_: #{format_date(q.time)}\n" <>

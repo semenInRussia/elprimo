@@ -7,8 +7,25 @@ defmodule Elprimo.Query do
 
   use Ecto.Schema
 
+  import Elprimo.Utils
+
   schema "query" do
     field(:info, :string)
     field(:doctype, :integer)
+  end
+
+  def save_and_send_to_admins(%__MODULE__{} = q, %Elprimo.User{} = user) do
+    Elprimo.Repo.insert(q)
+    d = Elprimo.Doctype.by_id(q.doctype)
+
+    {:ok, q} =
+      Elprimo.Repo.insert(%Elprimo.Question{
+        text: "Запрос на документ типа \"#{d.name}\"",
+        from: user.id,
+        isquery: true,
+        time: now()
+      })
+
+    Elprimo.Question.send_to_admins(q)
   end
 end

@@ -111,7 +111,8 @@ defmodule Elprimo.Handlers.QueryHandler do
     state = State.get(user.telegram)
 
     with {:query_field, _number, doctype_id, info} <- state do
-      Elprimo.Repo.insert(%Elprimo.Query{doctype: doctype_id, info: info})
+      q = %Elprimo.Query{doctype: doctype_id, info: info}
+      Elprimo.Query.save_and_send_to_admins(q, user)
       Telegex.send_message(user.telegram, "Запрос отправлен!")
       State.update(user.telegram, :none)
     else

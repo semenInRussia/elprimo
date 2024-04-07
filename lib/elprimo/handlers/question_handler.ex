@@ -48,14 +48,6 @@ defmodule Elprimo.Handlers.QuestionHandler do
     {:ok, q} =
       Elprimo.Repo.insert(%Question{time: now(), from: user.id, text: text, isquery: false})
 
-    send_to_admins(q)
-  end
-
-  @spec send_to_admins(Elprimo.Question.t()) :: any()
-  def send_to_admins(%Elprimo.Question{} = q) do
-    for u <- Elprimo.User.admins() do
-      Task.async(Question, :send_to_telegram, [q, u])
-    end
-    |> Task.await_many()
+    Elprimo.Question.send_to_admins(q)
   end
 end

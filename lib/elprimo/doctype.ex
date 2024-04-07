@@ -23,6 +23,12 @@ defmodule Elprimo.Doctype do
     Elprimo.Repo.one(query)
   end
 
+  @spec by_id(integer()) :: nil | t()
+  def by_id(id) do
+    query = from(d in __MODULE__, where: d.id == ^id, select: d)
+    Elprimo.Repo.one(query)
+  end
+
   @spec all() :: list(t())
   def all() do
     query = from(d in __MODULE__, select: d)
