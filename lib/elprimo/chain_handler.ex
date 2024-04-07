@@ -11,6 +11,7 @@ defmodule Elprimo.ChainHandler do
   pipeline([
     Elprimo.Handlers.StartHandler,
     Elprimo.Handlers.CancelHandler,
+    Elprimo.Handlers.InlineQueriesHandler,
     Elprimo.Handlers.QueryHandler,
     Elprimo.Handlers.QuestionHandler,
     Elprimo.Handlers.AnswHandler,
