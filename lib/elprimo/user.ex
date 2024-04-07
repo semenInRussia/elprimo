@@ -14,13 +14,13 @@ defmodule Elprimo.User do
     field(:admin, :boolean)
   end
 
-  @spec by_telegram_id(integer()) :: t()
+  @spec by_telegram_id(integer()) :: t() | nil
   def by_telegram_id(id) do
     query = from(u in __MODULE__, where: u.telegram == ^id, select: u)
     Elprimo.Repo.one(query)
   end
 
-  @spec by_id(integer()) :: t()
+  @spec by_id(integer()) :: t() | nil
   def by_id(id) do
     query = from(u in __MODULE__, where: u.id == ^id, select: u)
     Elprimo.Repo.one(query)
@@ -32,7 +32,7 @@ defmodule Elprimo.User do
     Elprimo.Repo.all(query)
   end
 
-  @spec from_tgx(%Telegex.Type.User{}) :: t()
+  @spec from_tgx(%Telegex.Type.User{}) :: t() | nil
   def from_tgx(%Telegex.Type.User{username: username, id: id}) do
     %__MODULE__{username: username, telegram: id, admin: false}
   end
