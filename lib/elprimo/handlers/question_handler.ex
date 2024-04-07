@@ -1,4 +1,7 @@
 defmodule Elprimo.Handlers.QuestionHandler do
+  @moduledoc """
+  Handle an ask question.
+  """
   use Telegex.Chain, :message
   alias Elprimo.Question
   alias Elprimo.State
@@ -6,8 +9,6 @@ defmodule Elprimo.Handlers.QuestionHandler do
   import Elprimo.Utils
 
   @command "question"
-
-  require Logger
 
   @impl Telegex.Chain
   def match?(msg, _ctx) when not is_nil(msg.text) do

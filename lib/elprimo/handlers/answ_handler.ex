@@ -1,4 +1,9 @@
 defmodule Elprimo.Handlers.AnswHandler do
+  @moduledoc """
+  Handle /answ<id> command or a callback query with /answ<id> data
+  which are called when an admin press "Answer" at the question bottom
+  inline query
+  """
   alias Elprimo.{Question, State, User}
   alias Telegex.Type.Update
   import Elprimo.Utils
