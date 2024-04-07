@@ -21,4 +21,10 @@ defmodule Elprimo.Doctype do
     query = from(d in __MODULE__, where: d.name == ^name, select: d)
     Elprimo.Repo.one(query)
   end
+
+  @spec all() :: list(t())
+  def all() do
+    query = from(d in __MODULE__, select: d)
+    Elprimo.Repo.all(query)
+  end
 end
