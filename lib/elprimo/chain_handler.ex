@@ -1,8 +1,9 @@
 defmodule Elprimo.ChainHandler do
   @moduledoc """
-  The place where I join all handlers of income messages.
+  The place where I join all handlers of income Telegram messages and
+  all updates.
 
-  Every handler take a message and do anything with it.
+  Each of handlers take a message/update and do anything with it.
   """
 
   use Telegex.Chain.Handler

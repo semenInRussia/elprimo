@@ -21,10 +21,11 @@ defmodule Elprimo.Handlers.QuestionHandler do
   @impl Telegex.Chain
   def handle(%Message{from: user} = msg, context) do
     u = Elprimo.User.by_telegram_id(user.id)
-    next_state(State.get(user.id), msg.text, u, context)
+    next_state(State.get(user.id), msg.text, u)
+    {:done, context}
   end
 
-  def next_state(state, text, %Elprimo.User{} = user, ctx) do
+  def next_state(state, text, %Elprimo.User{} = user) do
     case state do
       :question ->
         save_and_send(user, text)
@@ -35,8 +36,6 @@ defmodule Elprimo.Handlers.QuestionHandler do
         Telegex.send_message(user.telegram, "Ваш вопрос (как можно конкретнее)?")
         State.update(user.telegram, :question)
     end
-
-    {:done, ctx}
   end
 
   def save_and_send(%Elprimo.User{} = user, text) do

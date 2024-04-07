@@ -1,26 +1,33 @@
-* Elprimo [5/25]
+* Elprimo [16/32]
 ** DONE connect to db
 ** DONE Connect with GitHub
 ** DONE Schemes
 ** DONE Telegex skeleton
 ** DONE When /start
-** TODO Ability to insert questions
-** TODO Nice questions
-** TODO Send question to admins
-** TODO Insert /answ Message{}
-** TODO Check if admin
-** TODO Nice /answ
-** TODO Send messages between them
+** DONE Ability to insert questions
+** DONE Introduce state
+** DONE Nice questions
+** DONE Send question to admins
+** DONE Insert /answ Message{}
+** DONE Check if admin
+** DONE Nice /answ
+** DONE Next state
+** DONE Type state
+** DONE Answ with cb
+** DONE Send messages between them
 ** TODO Insert /msg Message{}
 ** TODO Check that have access
 ** TODO Ability to insert /query Query{}
 ** TODO Inline bot to choose Doctype
 ** TODO Send query to every admin
+** TODO =gen_pdf=
 ** TODO When send after /msg =gen_pdf=
 ** TODO /newadmin take username
 ** TODO Nice /newadmin
+** TODO Use KeyboardButtonRequestUser
 ** TODO Check that /newadmin is called with admin
 ** TODO Cool Buttons
 ** TODO Special menu for admins
 ** TODO Official language
 ** TODO /ban
+** TODO Inline queries outside

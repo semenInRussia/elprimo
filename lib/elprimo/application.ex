@@ -1,7 +1,15 @@
 defmodule Elprimo.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
-  @moduledoc false
+  @moduledoc """
+  The entry point of program which run all needed processes, including
+  the following ones:
+
+  - `Ecto`
+     PostgreSQL ORM
+  - `Elprimo.State`
+     In-memory storage of the current user state
+  - `Elprimo.UpdatesPoller`
+     A thing that handle income updates
+  """
 
   use Application
 
@@ -9,11 +17,11 @@ defmodule Elprimo.Application do
   def start(_type, _args) do
     # run all databases-like things
     children = [
-      # a repository for Postgres Database
+      # a repository for PostgreSQL Database
       Elprimo.Repo,
-      # an agent to check the user state
+      # agent to determine the user state
       Elprimo.State,
-      # a telegram
+      # telegram handler of events
       Elprimo.UpdatesPoller
     ]
 

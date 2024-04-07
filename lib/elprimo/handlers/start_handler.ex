@@ -1,4 +1,10 @@
 defmodule Elprimo.Handlers.StartHandler do
+  @moduledoc """
+  Handle the /start command.
+
+  After user call /start their Telegram ID is stored to DB
+  """
+
   use Telegex.Chain, :message
   alias Elprimo.User
   alias Telegex.Type.Message

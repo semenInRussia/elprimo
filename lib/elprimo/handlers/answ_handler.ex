@@ -1,7 +1,5 @@
 defmodule Elprimo.Handlers.AnswHandler do
-  alias Elprimo.Question
-  alias Elprimo.State
-  alias Elprimo.User
+  alias Elprimo.{Question, State, User}
   alias Telegex.Type.Update
   import Elprimo.Utils
   use Telegex.Chain
@@ -20,26 +18,6 @@ defmodule Elprimo.Handlers.AnswHandler do
   end
 
   def match?(_msg, _ctx), do: false
-
-  def text_of_update(%Update{} = upd) do
-    cond do
-      upd.callback_query != nil ->
-        upd.callback_query.data
-
-      upd.message != nil ->
-        upd.message.text
-    end
-  end
-
-  def tg_of_update(%Update{} = upd) do
-    cond do
-      upd.callback_query != nil ->
-        upd.callback_query.from.id
-
-      upd.message != nil ->
-        upd.message.from.id
-    end
-  end
 
   @impl Telegex.Chain
   def handle(%Update{} = upd, context) do
@@ -88,5 +66,25 @@ defmodule Elprimo.Handlers.AnswHandler do
 
     u = Elprimo.User.by_id(to)
     Elprimo.Message.send_to_telegram(m, u)
+  end
+
+  def text_of_update(%Update{} = upd) do
+    cond do
+      upd.callback_query != nil ->
+        upd.callback_query.data
+
+      upd.message != nil ->
+        upd.message.text
+    end
+  end
+
+  def tg_of_update(%Update{} = upd) do
+    cond do
+      upd.callback_query != nil ->
+        upd.callback_query.from.id
+
+      upd.message != nil ->
+        upd.message.from.id
+    end
   end
 end
