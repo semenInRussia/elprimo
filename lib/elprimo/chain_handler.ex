@@ -10,6 +10,7 @@ defmodule Elprimo.ChainHandler do
 
   pipeline([
     Elprimo.Handlers.StartHandler,
+    Elprimo.Handlers.CancelHandler,
     Elprimo.Handlers.QuestionHandler,
     Elprimo.Handlers.AnswHandler,
     Elprimo.Handlers.MsgHandler
