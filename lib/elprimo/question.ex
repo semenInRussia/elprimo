@@ -18,8 +18,8 @@ defmodule Elprimo.Question do
 
   def send_to_telegram(%__MODULE__{} = q, %Elprimo.User{} = u) do
     text =
-      "_Автор вопроса_: \#u#{q.from}\n" <>
-        "_Время_: #{format_date(q.time)}\n" <>
+      "_Время_: #{format_date(q.time)}\n" <>
+        "_Автор_: \#u#{q.from}\n" <>
         "\n#{q.text}\n"
 
     kb = %InlineKeyboardMarkup{
