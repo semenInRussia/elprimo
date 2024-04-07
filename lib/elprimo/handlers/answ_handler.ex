@@ -4,10 +4,12 @@ defmodule Elprimo.Handlers.AnswHandler do
   which are called when an admin press "Answer" at the question bottom
   inline query
   """
+
+  use Telegex.Chain
+
   alias Elprimo.{Question, State, User}
   alias Telegex.Type.Update
   import Elprimo.Utils
-  use Telegex.Chain
 
   @command "answ"
 

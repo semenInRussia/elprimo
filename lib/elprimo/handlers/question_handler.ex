@@ -2,7 +2,9 @@ defmodule Elprimo.Handlers.QuestionHandler do
   @moduledoc """
   Handle an ask question.
   """
+
   use Telegex.Chain, :message
+
   alias Elprimo.Question
   alias Elprimo.State
   alias Telegex.Type.Message
