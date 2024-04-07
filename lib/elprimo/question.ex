@@ -35,8 +35,8 @@ defmodule Elprimo.Question do
     Telegex.send_message(
       u.telegram,
       text,
-      reply_markup: kb,
-      parse_mode: "markdown"
+      parse_mode: "markdown",
+      reply_markup: kb
     )
   end
 

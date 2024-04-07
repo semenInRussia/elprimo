@@ -9,6 +9,8 @@ defmodule Elprimo.Handlers.QueryHandler do
 
   require Logger
 
+  alias Telegex.Type.InlineKeyboardButton
+  alias Telegex.Type.InlineKeyboardMarkup
   alias Telegex.Type.Update
   alias Elprimo.State
 
@@ -24,6 +26,9 @@ defmodule Elprimo.Handlers.QueryHandler do
       msg && msg.from ->
         state = State.get(msg.from.id)
         Kernel.match?({:query_field, _, _, _}, state) || state == :query_type
+
+      true ->
+        false
     end
   end
 
@@ -40,7 +45,16 @@ defmodule Elprimo.Handlers.QueryHandler do
   def next_state(state, %Elprimo.User{} = user, text) do
     case state do
       :none ->
-        Telegex.send_message(user.telegram, "Запрос на какой документ хотите подавать?")
+        kb = %InlineKeyboardMarkup{
+          inline_keyboard: [
+            [%InlineKeyboardButton{text: "Выбрать", switch_inline_query_current_chat: ""}]
+          ]
+        }
+
+        Telegex.send_message(user.telegram, "Запрос на какой документ хотите подавать?",
+          reply_markup: kb
+        )
+
         State.update(user.telegram, :query_type)
 
       :query_type ->
