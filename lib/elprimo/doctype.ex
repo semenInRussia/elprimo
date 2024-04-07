@@ -7,8 +7,18 @@ defmodule Elprimo.Doctype do
 
   use Ecto.Schema
 
+  import Ecto.Query
+
+  @type t() :: %__MODULE__{}
+
   schema "doctype" do
     field(:name, :string)
     field(:filename, :string)
+  end
+
+  @spec by_name(String.t()) :: nil | t()
+  def by_name(name) do
+    query = from(d in __MODULE__, where: d.name == ^name, select: d)
+    Elprimo.Repo.one(query)
   end
 end
