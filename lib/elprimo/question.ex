@@ -2,6 +2,8 @@ defmodule Elprimo.Question do
   @moduledoc """
   A schema for Elprimo.Question for sync with Database.
   """
+  alias Telegex.Type.InlineKeyboardButton
+  alias Telegex.Type.InlineKeyboardMarkup
 
   use Ecto.Schema
   import Ecto.Query
@@ -20,9 +22,11 @@ defmodule Elprimo.Question do
         "_Время_: #{format_date(q.time)}\n" <>
         "\n#{q.text}\n"
 
-    kb = %{
+    kb = %InlineKeyboardMarkup{
       inline_keyboard: [
-        [%{text: "Ответить", callback_data: "/answ#{q.id}"}]
+        [
+          %InlineKeyboardButton{text: "Ответить", callback_data: "/answ#{q.id}"}
+        ]
       ]
     }
 
