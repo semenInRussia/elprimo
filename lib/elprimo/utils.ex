@@ -9,6 +9,12 @@ defmodule Elprimo.Utils do
     |> NaiveDateTime.truncate(:second)
   end
 
+  @spec format_date(NaiveDateTime.t()) :: String.t()
+  def format_date(%NaiveDateTime{} = date) do
+    # 19 is length of dd/mm/yyyy HH:MM
+    "#{date}" |> String.slice(0, 19 - 3)
+  end
+
   @doc """
   Return true if a given text of user message is a command call.
 
