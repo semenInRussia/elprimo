@@ -21,10 +21,10 @@ defmodule Elprimo.Handlers.QuestionHandler do
 
   @impl Telegex.Chain
   def handle(%Message{from: user} = msg, context) do
-    handle_state(State.get(user.id), msg, context)
+    next_state(State.get(user.id), msg, context)
   end
 
-  def handle_state(state, %Message{from: user, text: txt} = msg, ctx) do
+  def next_state(state, %Message{from: user, text: txt} = msg, ctx) do
     u = User.by_telegram_id(user.id)
 
     case state do

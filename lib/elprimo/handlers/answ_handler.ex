@@ -24,11 +24,11 @@ defmodule Elprimo.Handlers.AnswHandler do
     if not u.admin do
       Telegex.send_message(user.id, "Вы не админ, никак!")
     else
-      handle_state(State.get(user.id), msg, u, context)
+      next_state(State.get(user.id), msg, u, context)
     end
   end
 
-  def handle_state(state, %Message{from: user, text: txt} = msg, u, ctx) do
+  def next_state(state, %Message{from: user, text: txt} = msg, u, ctx) do
     case state do
       {:answer, question_id} ->
         q = Question.by_id(question_id)
