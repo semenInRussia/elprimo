@@ -9,6 +9,7 @@ defmodule Elprimo.Handlers.AnswHandler do
 
   alias Elprimo.{Question, State, User}
   alias Telegex.Type.Update
+
   import Elprimo.Utils
 
   @command "answ"
@@ -16,22 +17,29 @@ defmodule Elprimo.Handlers.AnswHandler do
   require Logger
 
   @impl Telegex.Chain
+  def match?(%Update{callback_query: cb, message: msg}, _ctx)
+      when is_nil(cb) and is_nil(msg) do
+    false
+  end
+
   def match?(%Update{callback_query: cb, message: msg}, _ctx) do
-    cond do
-      !(cb && cb.from) && !(msg && msg.from) ->
-        false
+    {text, tg} =
+      cond do
+        cb && cb.message && cb.message.chat && cb.message.chat.id ->
+          {cb.data || "", cb.message.chat.id}
 
-      cb != nil && chop_1arg_command(cb.data || "", @command) ->
-        State.check(cb.from.id, :none)
+        msg && msg.from ->
+          {msg.text || "", msg.from.id}
 
-      msg != nil && chop_1arg_command(msg.text || "", @command) ->
-        State.check(msg.from.id, :none)
+        true ->
+          {"", nil}
+      end
 
-      msg != nil ->
-        Kernel.match?({:answer, _}, State.get(msg.chat.id))
+    state = tg && State.get(tg)
 
-      cb != nil ->
-        Kernel.match?({:answer, _}, State.get(cb.from.id))
+    case chop_1arg_command(text, @command) do
+      false -> Kernel.match?({:answer, _}, state)
+      _id -> state == :none
     end
   end
 
@@ -67,6 +75,9 @@ defmodule Elprimo.Handlers.AnswHandler do
         question_id = chop_1arg_command(text, @command)
         Telegex.send_message(user.telegram, "Ваш ответ:")
         State.update(user.telegram, {:answer, question_id})
+
+      _ ->
+        need_cancel(user)
     end
   end
 

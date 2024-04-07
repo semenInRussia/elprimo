@@ -79,6 +79,9 @@ defmodule Elprimo.Handlers.MsgHandler do
 
         Telegex.send_message(user.telegram, "Отправлено!")
         State.update(user.telegram, :none)
+
+      _ ->
+        need_cancel(user)
     end
   end
 end

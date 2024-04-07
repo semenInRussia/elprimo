@@ -47,4 +47,11 @@ defmodule Elprimo.Utils do
   end
 
   def chop_1arg_command(_, _), do: false
+
+  def need_cancel(%Elprimo.User{} = user) do
+    Telegex.send_message(
+      user.telegram,
+      "Отмените команду с помощью /cancel или просто ответьте на вопрос"
+    )
+  end
 end
