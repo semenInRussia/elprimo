@@ -14,6 +14,7 @@ defmodule Elprimo.Doctype do
   schema "doctype" do
     field(:name, :string)
     field(:filename, :string)
+    field(:description, :string)
   end
 
   @spec by_name(String.t()) :: nil | t()

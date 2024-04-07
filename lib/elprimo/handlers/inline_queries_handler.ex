@@ -19,6 +19,7 @@ defmodule Elprimo.Handlers.InlineQueriesHandler do
           type: "article",
           id: Integer.to_string(d.id),
           title: d.name,
+          description: d.description,
           input_message_content: %InputTextMessageContent{
             message_text: d.name
           }
