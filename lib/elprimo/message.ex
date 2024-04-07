@@ -16,7 +16,7 @@ defmodule Elprimo.Message do
 
   def send_to_telegram(%__MODULE__{} = m, %Elprimo.User{} = u) do
     text =
-      "Вам ответили!!\n" <>
+      "Вам ответили!\n" <>
         "_Время_: #{format_date(m.time)}\n" <>
         "_Автор_: \#u#{m.from}\n" <>
         "\n" <>
