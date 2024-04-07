@@ -30,31 +30,33 @@ defmodule Elprimo.Handlers.MsgHandler do
 
   @impl Telegex.Chain
   def handle(%Update{message: msg, callback_query: cb}, context) do
-    cond do
-      !(msg && msg.text) && !(cb && cb.from) ->
-        Telegex.send_message(msg.from.id, "Пришлите ваш ответ или отмените /cancel")
-        {:done, context}
+    {text, state, tg} =
+      cond do
+        msg -> {msg.text, State.get(msg.from.id), msg.from.id}
+        cb -> {cb.data, State.get(cb.message.chat.id), cb.message.chat.id}
+      end
 
-      true ->
-        {text, state, tg} =
-          cond do
-            msg -> {msg.text, State.get(msg.from.id), msg.from.id}
-            cb -> {cb.data, State.get(cb.message.chat.id), cb.message.chat.id}
-          end
+    user = Elprimo.User.by_telegram_id(tg)
 
-        user = Elprimo.User.by_telegram_id(tg)
-
-        next_state(state, text, user)
-        {:done, context}
-    end
+    next_state(state, text, user)
+    {:done, context}
   end
 
   def next_state(state, text, %Elprimo.User{} = user) do
     case state do
       :none ->
         msg_id = chop_1arg_command(text, @command)
-        Telegex.send_message(user.telegram, "Ваш ответ:")
-        State.update(user.telegram, {:msg, msg_id})
+        msg = Elprimo.Message.by_id(msg_id)
+
+        if msg.from != user.id and msg.to != user.id do
+          Telegex.send_message(
+            user.telegram,
+            "У тебя нет прав на то, чтобы ответить на это сообщение, кретин"
+          )
+        else
+          Telegex.send_message(user.telegram, "Ваш ответ:")
+          State.update(user.telegram, {:msg, msg_id})
+        end
 
       {:msg, msg_id} ->
         prev = Elprimo.Message.by_id(msg_id)
