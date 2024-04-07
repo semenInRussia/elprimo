@@ -18,36 +18,40 @@ defmodule Elprimo.Handlers.AnswHandler do
   def match?(_msg, _ctx), do: false
 
   @impl Telegex.Chain
-  def handle(%Message{from: user} = msg, context) do
+  def handle(%Message{from: user, text: text}, context) do
     u = User.by_telegram_id(user.id)
 
     if not u.admin do
-      Telegex.send_message(user.id, "Вы не админ, никак!")
+      Telegex.send_message(u.telegram, "Вы не админ, никак!")
     else
-      next_state(State.get(user.id), msg, u, context)
+      state = State.get(user.id)
+      next_state(state, text, u, context)
     end
   end
 
-  def next_state(state, %Message{from: user, text: txt} = msg, u, ctx) do
+  def next_state(state, text, %Elprimo.User{} = user, ctx) do
     case state do
       {:answer, question_id} ->
         q = Question.by_id(question_id)
 
         Elprimo.Repo.insert(%Elprimo.Message{
-          text: txt,
+          text: text,
           to: q.from,
-          from: u.id,
+          from: user.id,
           time: now()
         })
 
-        State.update(user.id, :none)
+        Telegex.send_message(
+          user.telegram,
+          "Вы ответили человеку на его вопрос, достойно уважения"
+        )
 
-        Telegex.send_message(user.id, "Вы ответили человеку на его вопрос, достойно уважения")
+        State.update(user.telegram, :none)
 
       :none ->
-        question_id = chop_1arg_command(txt, @command)
-        Telegex.send_message(msg.chat.id, "Ваш ответ:")
-        State.update(user.id, {:answer, question_id})
+        question_id = chop_1arg_command(text, @command)
+        Telegex.send_message(user.telegram, "Ваш ответ:")
+        State.update(user.telegram, {:answer, question_id})
     end
 
     {:done, ctx}
