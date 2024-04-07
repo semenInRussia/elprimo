@@ -40,6 +40,7 @@ defmodule Elprimo.Question do
     )
   end
 
+  @spec by_id(integer()) :: t() | nil
   def by_id(id) do
     query = from(q in __MODULE__, where: q.id == ^id, select: q)
     Elprimo.Repo.one(query)
