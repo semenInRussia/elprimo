@@ -16,15 +16,24 @@ defmodule Elprimo.Handlers.AnswHandler do
   require Logger
 
   @impl Telegex.Chain
-  def match?(%Update{} = upd, _ctx)
-      when not is_nil(upd.callback_query) or not is_nil(upd.message) do
-    text = text_of_update(upd)
-    tg_id = tg_of_update(upd)
-    state = State.get(tg_id)
-    chop_1arg_command(text, @command) || Kernel.match?({:answer, _}, state)
-  end
+  def match?(%Update{callback_query: cb, message: msg}, _ctx) do
+    cond do
+      !(cb && cb.from) && !(msg && msg.from) ->
+        false
 
-  def match?(_msg, _ctx), do: false
+      cb != nil && chop_1arg_command(cb.data || "", @command) ->
+        State.check(cb.from.id, :none)
+
+      msg != nil && chop_1arg_command(msg.text || "", @command) ->
+        State.check(msg.from.id, :none)
+
+      msg != nil ->
+        Kernel.match?({:answer, _}, State.get(msg.chat.id))
+
+      cb != nil ->
+        Kernel.match?({:answer, _}, State.get(cb.from.id))
+    end
+  end
 
   @impl Telegex.Chain
   def handle(%Update{} = upd, context) do
@@ -36,11 +45,12 @@ defmodule Elprimo.Handlers.AnswHandler do
       Telegex.send_message(u.telegram, "Вы не админ, никак!")
     else
       state = State.get(tg_id)
-      next_state(state, text, u, context)
+      next_state(state, text, u)
+      {:done, context}
     end
   end
 
-  def next_state(state, text, %Elprimo.User{} = user, ctx) do
+  def next_state(state, text, %Elprimo.User{} = user) do
     case state do
       {:answer, question_id} ->
         q = Question.by_id(question_id)
@@ -58,8 +68,6 @@ defmodule Elprimo.Handlers.AnswHandler do
         Telegex.send_message(user.telegram, "Ваш ответ:")
         State.update(user.telegram, {:answer, question_id})
     end
-
-    {:done, ctx}
   end
 
   def save_and_send(text, from, to) do

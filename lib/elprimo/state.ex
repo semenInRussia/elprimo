@@ -13,7 +13,7 @@ defmodule Elprimo.State do
 
   use Agent
 
-  @type state() :: :none | :question | {:answer, integer()}
+  @type state() :: :none | :question | {:answer, integer()} | {:msg, integer()}
 
   def start_link(_opts) do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
