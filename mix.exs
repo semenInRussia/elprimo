@@ -22,6 +22,9 @@ defmodule Elprimo.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      # UUID
+      {:uuid, "~> 1.1.8"},
+
       # database library (Ecto) deps:
       {:ecto_sql, "~> 3.2"},
       {:postgrex, "~> 0.15"},

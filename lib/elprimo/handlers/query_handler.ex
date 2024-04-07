@@ -15,7 +15,6 @@ defmodule Elprimo.Handlers.QueryHandler do
   alias Elprimo.State
 
   @command "query"
-  @separator "|||"
 
   @impl Telegex.Chain
   def match?(%Update{message: msg} = _upd, _context) do
@@ -71,7 +70,7 @@ defmodule Elprimo.Handlers.QueryHandler do
         # so text is answer on previous field question
         State.update(
           user.telegram,
-          {:query_field, number + 1, doctype_id, info <> @separator <> text}
+          {:query_field, number + 1, doctype_id, info <> Elprimo.Query.separator() <> text}
         )
 
         next_field_question(user, number, doctype_id)

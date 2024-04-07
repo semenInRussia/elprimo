@@ -2,6 +2,7 @@ defmodule Elprimo.Question do
   @moduledoc """
   A schema for Elprimo.Question for sync with Database.
   """
+  require Logger
   alias Telegex.Type.InlineKeyboardButton
   alias Telegex.Type.InlineKeyboardMarkup
 
@@ -34,11 +35,12 @@ defmodule Elprimo.Question do
 
     kb = %InlineKeyboardMarkup{
       inline_keyboard: [
-        [
-          %InlineKeyboardButton{text: "Ответить", callback_data: "/answ#{q.id}"}
-        ]
+        [%InlineKeyboardButton{text: "Ответить", callback_data: "/answ#{q.id}"}]
       ]
     }
+
+    document =
+      q.query && q.query |> Elprimo.Query.by_id() |> Elprimo.Query.publish()
 
     Telegex.send_message(
       u.telegram,
@@ -46,6 +48,12 @@ defmodule Elprimo.Question do
       parse_mode: "markdown",
       reply_markup: kb
     )
+
+    Logger.warning(document)
+
+    if document do
+      Telegex.send_document(u.telegram, document)
+    end
   end
 
   @spec by_id(integer()) :: t() | nil

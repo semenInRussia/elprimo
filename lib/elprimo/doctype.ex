@@ -34,4 +34,9 @@ defmodule Elprimo.Doctype do
     query = from(d in __MODULE__, select: d)
     Elprimo.Repo.all(query)
   end
+
+  def fields(%__MODULE__{} = d) do
+    query = from(f in Elprimo.Field, where: f.doctype == ^d.id, select: f)
+    Elprimo.Repo.all(query)
+  end
 end
