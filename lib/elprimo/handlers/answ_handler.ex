@@ -23,23 +23,17 @@ defmodule Elprimo.Handlers.AnswHandler do
   end
 
   def match?(%Update{callback_query: cb, message: msg}, _ctx) do
-    {text, tg} =
-      cond do
-        cb && cb.message && cb.message.chat && cb.message.chat.id ->
-          {cb.data || "", cb.message.chat.id}
+    cond do
+      msg ->
+        state = State.get(msg.from.id)
+        msg.text && msg.from && Kernel.match?({:answer, _}, state)
 
-        msg && msg.from ->
-          {msg.text || "", msg.from.id}
+      cb ->
+        text = cb.data || ""
+        chop_1arg_command(text, @command)
 
-        true ->
-          {"", nil}
-      end
-
-    state = tg && State.get(tg)
-
-    case chop_1arg_command(text, @command) do
-      false -> Kernel.match?({:answer, _}, state)
-      _id -> state == :none
+      true ->
+        false
     end
   end
 
@@ -107,7 +101,7 @@ defmodule Elprimo.Handlers.AnswHandler do
   def tg_of_update(%Update{} = upd) do
     cond do
       upd.callback_query != nil ->
-        upd.callback_query.from.id
+        upd.callback_query.message.chat.id
 
       upd.message != nil ->
         upd.message.from.id

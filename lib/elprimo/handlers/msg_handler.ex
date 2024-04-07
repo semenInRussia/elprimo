@@ -17,24 +17,14 @@ defmodule Elprimo.Handlers.MsgHandler do
 
   @impl Telegex.Chain
   def match?(%Update{message: msg, callback_query: cb}, _context) do
-    state =
-      cond do
-        not is_nil(msg && msg.from) -> State.get(msg.from.id)
-        not is_nil(cb && cb.message) -> State.get(cb.message.chat.id)
-      end
-
     cond do
-      !msg && !cb ->
-        false
+      msg && msg.from ->
+        state = State.get(msg.from.id)
+        Kernel.match?({:msg, _}, state)
 
-      Kernel.match?({:msg, _}, state) ->
-        true
-
-      not is_nil(msg) ->
-        chop_1arg_command(msg.text || "", @command)
-
-      not is_nil(cb) ->
-        chop_1arg_command(cb.data || "", @command)
+      cb ->
+        text = cb.data || ""
+        chop_1arg_command(text, @command)
     end
   end
 
