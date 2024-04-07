@@ -17,13 +17,18 @@ defmodule Elprimo.Question do
     text =
       "_Автор вопроса_: \#u#{q.from}\n" <>
         "_Время_: #{q.time}\n" <>
-        "\n#{q.text}\n" <>
-        "\n" <>
-        "/answ#{q.id}"
+        "\n#{q.text}\n"
+
+    kb = %{
+      inline_keyboard: [
+        [%{text: "Ответить", callback_data: "/answ#{q.id}"}]
+      ]
+    }
 
     Telegex.send_message(
       u.telegram,
       text,
+      reply_markup: kb,
       parse_mode: "markdown"
     )
   end
