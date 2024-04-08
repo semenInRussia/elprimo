@@ -16,10 +16,17 @@ defmodule Elprimo.Handlers.QueryHandler do
 
   @command "query"
 
+  def label() do
+    "Запрос на Документы 📃"
+  end
+
   @impl Telegex.Chain
   def match?(%Update{message: msg} = _upd, _context) do
     cond do
       msg && msg.from && msg.text && check_command(msg.text, @command) ->
+        true
+
+      msg && msg.from && msg.text && msg.text == label() ->
         true
 
       msg && msg.from ->
@@ -60,7 +67,10 @@ defmodule Elprimo.Handlers.QueryHandler do
         doctype = Elprimo.Doctype.by_name(text)
 
         if doctype == nil do
-          Telegex.send_message(user.telegram, "неправильный тип документа, попробуйте ещё раз!")
+          Telegex.send_message(
+            user.telegram,
+            "Неправильный тип документа, попробуйте ещё раз!  Если что вы можете увидеть список возможных документов, нажав кнопку \"Выбрать\" сверху.  Ещё возможно вам необходимо отменить текущую операцию, нажав /cancel"
+          )
         else
           State.update(user.telegram, {:query_field, 2, doctype.id, ""})
           next_field_question(user, 1, doctype.id)
@@ -112,7 +122,7 @@ defmodule Elprimo.Handlers.QueryHandler do
     with {:query_field, _number, doctype_id, info} <- state do
       q = %Elprimo.Query{doctype: doctype_id, info: info}
       Elprimo.Query.save_and_send_to_admins(q, user)
-      Telegex.send_message(user.telegram, "Запрос отправлен!")
+      Telegex.send_message(user.telegram, "Запрос отправлен! Дожидайтесь ответа!")
       State.update(user.telegram, :none)
     else
       _ -> Logger.error("We can't call `stop_gen_query` when state isn't :query_field")

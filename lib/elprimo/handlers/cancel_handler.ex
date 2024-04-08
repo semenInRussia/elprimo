@@ -17,7 +17,7 @@ defmodule Elprimo.Handlers.CancelHandler do
 
   def handle(%Update{message: msg}, context) do
     State.update(msg.from.id, :none)
-    Telegex.send_message(msg.from.id, "Предыдущая операция отменена!")
+    Telegex.send_message(msg.from.id, "Предыдущая операция отменена! 🔙")
     {:done, context}
   end
 end

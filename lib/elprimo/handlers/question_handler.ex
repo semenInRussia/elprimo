@@ -12,9 +12,14 @@ defmodule Elprimo.Handlers.QuestionHandler do
 
   @command "question"
 
+  def label() do
+    "Задать Вопрос 🤔"
+  end
+
   @impl Telegex.Chain
   def match?(msg, _ctx) when not is_nil(msg.text) do
-    check_command(msg.text, @command) or State.check(msg.from.id, :question)
+    label() == msg.text or check_command(msg.text, @command) or
+      State.check(msg.from.id, :question)
   end
 
   def match?(_msg, _ctx), do: false
@@ -31,7 +36,12 @@ defmodule Elprimo.Handlers.QuestionHandler do
     case state do
       :question ->
         save_and_send(user, text)
-        Telegex.send_message(user.telegram, "Спасибо за то, что задали вопрос!")
+
+        Telegex.send_message(
+          user.telegram,
+          "Ваш вопрос отправлен, дожидайтесь ответа! Он придёт в скором времени"
+        )
+
         State.update(user.telegram, :none)
 
       :none ->

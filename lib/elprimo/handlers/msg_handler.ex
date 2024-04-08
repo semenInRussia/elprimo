@@ -58,7 +58,7 @@ defmodule Elprimo.Handlers.MsgHandler do
             "У тебя нет прав на то, чтобы ответить на это сообщение, кретин"
           )
         else
-          Telegex.send_message(user.telegram, "Ваш ответ:")
+          Telegex.send_message(user.telegram, "Что вы скажете на это?")
           State.update(user.telegram, {:msg, msg_id})
         end
 

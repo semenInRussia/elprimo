@@ -14,8 +14,6 @@ defmodule Elprimo.Handlers.AnswHandler do
 
   @command "answ"
 
-  require Logger
-
   @impl Telegex.Chain
   def match?(%Update{callback_query: cb, message: msg}, _ctx)
       when is_nil(cb) and is_nil(msg) do
@@ -61,14 +59,14 @@ defmodule Elprimo.Handlers.AnswHandler do
 
         Telegex.send_message(
           user.telegram,
-          "Вы ответили человеку на его вопрос, достойно уважения"
+          "Ваш вопрос уже отправлен..."
         )
 
         State.update(user.telegram, :none)
 
       :none ->
         question_id = chop_1arg_command(text, @command)
-        Telegex.send_message(user.telegram, "Ваш ответ:")
+        Telegex.send_message(user.telegram, "Ваш ответ на этот прекрасный вопрос:")
         State.update(user.telegram, {:answer, question_id})
 
       _ ->

@@ -6,12 +6,11 @@ defmodule Elprimo.Query do
   """
 
   @templates_path "templates/"
-  @extension ".docx"
+  @extension ".txt"
 
   use Ecto.Schema
 
   import Ecto.Query
-  require Logger
 
   import Elprimo.Utils
 
@@ -47,8 +46,6 @@ defmodule Elprimo.Query do
     vals = String.split(q.info, separator(), trim: true)
 
     m = Enum.zip(keys, vals) |> Map.new()
-
-    Logger.warning(keys)
 
     {:ok, txt} = File.read(@templates_path <> d.filename)
 
