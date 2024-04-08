@@ -4,9 +4,12 @@ defmodule Elprimo.Utils do
   library.
   """
 
+  @spec now() :: NaiveDateTime.t()
   def now() do
     NaiveDateTime.utc_now()
     |> NaiveDateTime.truncate(:second)
+    # moscow time
+    |> NaiveDateTime.add(3, :hour)
   end
 
   @spec format_date(NaiveDateTime.t()) :: String.t()

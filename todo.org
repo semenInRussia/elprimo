@@ -1,4 +1,4 @@
-* Elprimo [59%]
+* Elprimo [70%]
 ** DONE connect to db
 ** DONE Connect with GitHub
 ** DONE Schemes
@@ -24,16 +24,18 @@
 ** DONE Send messages between them
 
 ** DONE Inline bot to choose Doctype
-** TODO Send query to every admin
+** DONE Send query to every admin
 ** TODO =gen_pdf=
-** TODO When send after /msg =gen_pdf=
+** DONE When send after /msg =gen_pdf=
+** DONE Cool Buttons
+
 ** TODO /newadmin take username
+** TODO send to all
 ** TODO Nice /newadmin
 ** TODO Use KeyboardButtonRequestUser
 ** TODO Check that /newadmin is called with admin
-** TODO Cool Buttons
 ** TODO Special menu for admins
-** TODO Official language
+** DONE Official language
 ** TODO Handle when user replied the message using telegram reply
 
 ** TODO Ability to create Doctypes from tg bot
