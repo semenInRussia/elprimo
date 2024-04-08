@@ -1,21 +1,11 @@
 # Elprimo
 
-**TODO: Add description**
+A telegram bot for helping my school (it's my school project) :elixir: :telegram:
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `elprimo` to your list of dependencies in `mix.exs`:
+At first install dependencies:
 
-```elixir
-def deps do
-  [
-    {:elprimo, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/elprimo>.
-
+- `elixir`, it's OK
+- `postgresql` the database
+- `docxbox` --- this is a tool to generate DOCX files ([link to repo](https://github.com/gyselroth/docxBox?tab=readme-ov-file#replace-text))
