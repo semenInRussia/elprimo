@@ -28,7 +28,8 @@ defmodule Elprimo.Handlers.Start do
     kb = %ReplyKeyboardMarkup{
       keyboard: [
         [%KeyboardButton{text: Elprimo.Handlers.Query.label()}],
-        [%KeyboardButton{text: Elprimo.Handlers.Question.label()}]
+        [%KeyboardButton{text: Elprimo.Handlers.Question.label()}],
+        [%KeyboardButton{text: Elprimo.Handlers.Cancel.label()}]
       ]
     }
 
