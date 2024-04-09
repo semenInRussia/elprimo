@@ -22,6 +22,7 @@ defmodule Elprimo.State do
           # first integer() is the field number
           # second integer() is the Doctype.ID
           | {:query_field, integer(), integer(), String.t()}
+          | :add_admins
 
   def start_link(_opts) do
     Agent.start_link(fn -> %{} end, name: __MODULE__)

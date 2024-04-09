@@ -16,6 +16,7 @@ defmodule Elprimo.ChainHandler do
     Elprimo.Handlers.Question,
     Elprimo.Handlers.Answ,
     Elprimo.Handlers.Msg,
-    Elprimo.Handlers.ForAll
+    Elprimo.Handlers.ForAll,
+    Elprimo.Handlers.AddAdmins
   ])
 end

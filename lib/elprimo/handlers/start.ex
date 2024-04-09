@@ -25,16 +25,18 @@ defmodule Elprimo.Handlers.Start do
       Elprimo.Repo.insert(User.from_tgx(user))
     end
 
-    kb = %ReplyKeyboardMarkup{
+    Telegex.send_message(msg.chat.id, "Дарово!! |/ 🤝", reply_markup: keyboard())
+
+    {:done, context}
+  end
+
+  def keyboard do
+    %ReplyKeyboardMarkup{
       keyboard: [
         [%KeyboardButton{text: Elprimo.Handlers.Query.label()}],
         [%KeyboardButton{text: Elprimo.Handlers.Question.label()}],
         [%KeyboardButton{text: Elprimo.Handlers.Cancel.label()}]
       ]
     }
-
-    Telegex.send_message(msg.chat.id, "Дарово!! |/ 🤝", reply_markup: kb)
-
-    {:done, context}
   end
 end

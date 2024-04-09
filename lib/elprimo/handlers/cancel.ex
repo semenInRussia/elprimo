@@ -21,7 +21,11 @@ defmodule Elprimo.Handlers.Cancel do
 
   def handle(%Update{message: msg}, context) do
     State.update(msg.from.id, :none)
-    Telegex.send_message(msg.from.id, "Предыдущая операция отменена! 🔙")
+
+    Telegex.send_message(msg.from.id, "Предыдущая операция отменена! 🔙",
+      reply_markup: Elprimo.Handlers.Start.keyboard()
+    )
+
     {:done, context}
   end
 end

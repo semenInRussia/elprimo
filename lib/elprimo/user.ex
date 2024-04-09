@@ -36,4 +36,8 @@ defmodule Elprimo.User do
   def from_tgx(%Telegex.Type.User{username: username, id: id}) do
     %__MODULE__{username: username, telegram: id, admin: false}
   end
+
+  def add_admin(username, telegram) do
+    Elprimo.Repo.insert(%__MODULE__{username: username, telegram: telegram, admin: true})
+  end
 end
