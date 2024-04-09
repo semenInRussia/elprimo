@@ -38,6 +38,13 @@ defmodule Elprimo.User do
   end
 
   def add_admin(username, telegram) do
-    Elprimo.Repo.insert(%__MODULE__{username: username, telegram: telegram, admin: true})
+    u = __MODULE__.by_telegram_id(telegram)
+
+    if u != nil do
+      Ecto.Changeset.change(u, admin: true)
+      |> Elprimo.Repo.update()
+    else
+      Elprimo.Repo.insert(%__MODULE__{username: username, telegram: telegram, admin: true})
+    end
   end
 end
