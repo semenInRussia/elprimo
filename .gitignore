@@ -27,3 +27,4 @@ elprimo-*.tar
 
 # files that added with me
 /config/secret.exs
+/_queries/

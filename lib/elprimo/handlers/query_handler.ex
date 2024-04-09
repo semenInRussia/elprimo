@@ -122,7 +122,12 @@ defmodule Elprimo.Handlers.QueryHandler do
     with {:query_field, _number, doctype_id, info} <- state do
       q = %Elprimo.Query{doctype: doctype_id, info: info}
       Elprimo.Query.save_and_send_to_admins(q, user)
-      Telegex.send_message(user.telegram, "Запрос отправлен! Дожидайтесь ответа!")
+
+      Telegex.send_message(
+        user.telegram,
+        "Ваша заявка на получения документа получена, приходите в школу в рабочие часы приёмной"
+      )
+
       State.update(user.telegram, :none)
     else
       _ -> Logger.error("We can't call `stop_gen_query` when state isn't :query_field")
