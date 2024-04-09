@@ -17,12 +17,22 @@ defmodule Elprimo.Handlers.AddAdmins do
 
   @command "addadmins"
 
+  def label() do
+    "Добавить ещё Админов"
+  end
+
   def match?(%Update{message: msg} = _upd, _context) do
     cond do
-      msg && msg.from && msg.text ->
-        msg.text && check_command(msg.text, @command)
+      !(msg && msg.from) ->
+        false
 
-      msg && msg.from && msg.users_shared ->
+      not Elprimo.User.by_telegram_id(msg.from.id).admin ->
+        false
+
+      msg.text ->
+        msg.text && (check_command(msg.text, @command) || msg.text == label())
+
+      msg.users_shared ->
         State.check(msg.from.id, :add_admins)
 
       true ->
@@ -44,10 +54,12 @@ defmodule Elprimo.Handlers.AddAdmins do
           Elprimo.User.add_admin("", uid)
         end
 
+        u = Elprimo.User.by_telegram_id(msg.from.id)
+
         Telegex.send_message(
           msg.from.id,
           "Добавили!",
-          reply_markup: Elprimo.Handlers.Start.keyboard()
+          reply_markup: Elprimo.Handlers.Start.keyboard(u)
         )
 
         {:done, context}

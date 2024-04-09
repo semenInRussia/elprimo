@@ -21,21 +21,33 @@ defmodule Elprimo.Handlers.Start do
 
   @impl Telegex.Chain
   def handle(%Message{from: user} = msg, context) do
-    if is_nil(Elprimo.User.by_telegram_id(user.id)) do
-      Elprimo.Repo.insert(User.from_tgx(user))
-    end
+    u =
+      case Elprimo.User.by_telegram_id(user.id) do
+        nil ->
+          user = User.from_tgx(user)
+          Elprimo.Repo.insert(user)
+          user
 
-    Telegex.send_message(msg.chat.id, "Дарово!! |/ 🤝", reply_markup: keyboard())
+        user ->
+          user
+      end
+
+    Telegex.send_message(msg.chat.id, "Дарово!! |/ 🤝", reply_markup: keyboard(u))
 
     {:done, context}
   end
 
-  def keyboard do
+  def keyboard(%Elprimo.User{} = u) do
     %ReplyKeyboardMarkup{
       keyboard: [
         [%KeyboardButton{text: Elprimo.Handlers.Query.label()}],
         [%KeyboardButton{text: Elprimo.Handlers.Question.label()}],
-        [%KeyboardButton{text: Elprimo.Handlers.Cancel.label()}]
+        [%KeyboardButton{text: Elprimo.Handlers.Cancel.label()}] ++
+          if u.admin do
+            [%KeyboardButton{text: Elprimo.Handlers.AddAdmins.label()}]
+          else
+            []
+          end
       ]
     }
   end
