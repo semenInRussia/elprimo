@@ -24,16 +24,25 @@ defmodule Elprimo.Message do
         "\n" <>
         "#{m.text}"
 
-    kb = %InlineKeyboardMarkup{
-      inline_keyboard: [
-        [
-          %InlineKeyboardButton{
-            text: "Продолжить",
-            callback_data: "/msg#{m.id}"
-          }
-        ]
-      ]
-    }
+    buts =
+      [
+        %InlineKeyboardButton{
+          text: "Продолжить",
+          callback_data: "/msg#{m.id}"
+        }
+      ] ++
+        if u.admin do
+          [
+            %InlineKeyboardButton{
+              text: "Скинуть всем",
+              callback_data: "/forall#{m.id}"
+            }
+          ]
+        else
+          []
+        end
+
+    kb = %InlineKeyboardMarkup{inline_keyboard: [buts]}
 
     Telegex.send_message(
       u.telegram,
@@ -41,6 +50,13 @@ defmodule Elprimo.Message do
       parse_mode: "markdown",
       reply_markup: kb
     )
+  end
+
+  def send_to_admins(%__MODULE__{} = m) do
+    for u <- Elprimo.User.admins() do
+      Task.async(__MODULE__, :send_to_telegram, [m, u])
+    end
+    |> Task.await_many()
   end
 
   @spec by_id(integer()) :: t() | nil

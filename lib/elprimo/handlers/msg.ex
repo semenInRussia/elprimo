@@ -52,7 +52,7 @@ defmodule Elprimo.Handlers.Msg do
         msg_id = chop_1arg_command(text, @command)
         msg = Elprimo.Message.by_id(msg_id)
 
-        if msg.from != user.id and msg.to != user.id do
+        if not user.admin and (msg.from != user.id and msg.to != user.id) do
           Telegex.send_message(
             user.telegram,
             "У тебя нет прав на то, чтобы ответить на это сообщение, кретин"
