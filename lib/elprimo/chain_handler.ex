@@ -9,12 +9,13 @@ defmodule Elprimo.ChainHandler do
   use Telegex.Chain.Handler
 
   pipeline([
-    Elprimo.Handlers.StartHandler,
-    Elprimo.Handlers.CancelHandler,
-    Elprimo.Handlers.InlineQueriesHandler,
-    Elprimo.Handlers.QueryHandler,
-    Elprimo.Handlers.QuestionHandler,
-    Elprimo.Handlers.AnswHandler,
-    Elprimo.Handlers.MsgHandler
+    Elprimo.Handlers.Start,
+    Elprimo.Handlers.Cancel,
+    Elprimo.Handlers.InlineQueries,
+    Elprimo.Handlers.Query,
+    Elprimo.Handlers.Question,
+    Elprimo.Handlers.Answ,
+    Elprimo.Handlers.Msg,
+    Elprimo.Handlers.ForAll
   ])
 end

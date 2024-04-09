@@ -1,4 +1,4 @@
-defmodule Elprimo.Handlers.AnswHandler do
+defmodule Elprimo.Handlers.Answ do
   @moduledoc """
   Handle /answ<id> command or a callback query with /answ<id> data
   which are called when an admin press "Answer" at the question bottom
@@ -7,6 +7,7 @@ defmodule Elprimo.Handlers.AnswHandler do
 
   use Telegex.Chain
 
+  require Logger
   alias Elprimo.{Question, State, User}
   alias Telegex.Type.Update
 
@@ -39,6 +40,9 @@ defmodule Elprimo.Handlers.AnswHandler do
   def handle(%Update{} = upd, context) do
     tg_id = tg_of_update(upd)
     u = User.by_telegram_id(tg_id)
+
+    Logger.warning("okkk")
+
     text = text_of_update(upd)
 
     if not u.admin do

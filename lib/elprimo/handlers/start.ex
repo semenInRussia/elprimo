@@ -1,4 +1,4 @@
-defmodule Elprimo.Handlers.StartHandler do
+defmodule Elprimo.Handlers.Start do
   @moduledoc """
   Handle the /start command.
 
@@ -27,8 +27,8 @@ defmodule Elprimo.Handlers.StartHandler do
 
     kb = %ReplyKeyboardMarkup{
       keyboard: [
-        [%KeyboardButton{text: Elprimo.Handlers.QueryHandler.label()}],
-        [%KeyboardButton{text: Elprimo.Handlers.QuestionHandler.label()}]
+        [%KeyboardButton{text: Elprimo.Handlers.Query.label()}],
+        [%KeyboardButton{text: Elprimo.Handlers.Question.label()}]
       ]
     }
 

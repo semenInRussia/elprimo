@@ -1,4 +1,4 @@
-defmodule Elprimo.Handlers.CancelHandler do
+defmodule Elprimo.Handlers.Cancel do
   @moduledoc """
   Handle the /cancel command which must cancel the previous commands
   """

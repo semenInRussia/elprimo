@@ -1,4 +1,4 @@
-defmodule Elprimo.Handlers.MsgHandler do
+defmodule Elprimo.Handlers.Msg do
   @moduledoc """
   Handle an answer on answer.
 

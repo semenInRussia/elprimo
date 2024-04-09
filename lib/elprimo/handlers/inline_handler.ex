@@ -1,4 +1,4 @@
-defmodule Elprimo.Handlers.InlineQueriesHandler do
+defmodule Elprimo.Handlers.InlineQueries do
   @moduledoc """
   Handle income queries to inline queries.  Goal is provide auto
   completion for Doctype name.

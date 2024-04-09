@@ -1,4 +1,4 @@
-defmodule Elprimo.Handlers.QuestionHandler do
+defmodule Elprimo.Handlers.Question do
   @moduledoc """
   Handle an ask question.
   """

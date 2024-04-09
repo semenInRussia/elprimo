@@ -1,4 +1,4 @@
-defmodule Elprimo.Handlers.QueryHandler do
+defmodule Elprimo.Handlers.Query do
   @moduledoc """
   Handle all income Telegram updates which touch a query generation.
   """
