@@ -35,7 +35,7 @@ defmodule Elprimo.Query do
 
     args =
       for {old, new} <- replacements(q, d) do
-        "#{old}='#{new}'"
+        "#{old}=#{new}"
       end
 
     Logger.warning(args)
